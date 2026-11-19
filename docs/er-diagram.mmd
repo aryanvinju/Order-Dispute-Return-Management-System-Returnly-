@@ -1,0 +1,83 @@
+erDiagram
+    USERS ||--o| VENDORS : operates
+    USERS ||--o{ ORDERS : buys
+    VENDORS ||--o{ ORDERS : fulfils
+    USERS ||--o{ SESSIONS : authenticates
+    ORDERS ||--|{ ORDER_ITEMS : contains
+    ORDERS ||--|| PAYMENTS : captured_by
+    ORDERS ||--o| DISPUTES : has
+    DISPUTES ||--o| REFUNDS : results_in
+    PAYMENTS ||--o{ REFUNDS : funds
+    DISPUTES ||--o{ DISPUTE_EVENTS : records
+    DISPUTES ||--o{ OUTBOX : queues
+    USERS ||--o{ DISPUTE_EVENTS : performs
+    USERS ||--o{ REFUNDS : processes
+    USERS ||--o{ DISPUTES : resolves
+    USERS {
+      uuid id PK
+      string email UK
+      string name
+      string role
+      string password_hash
+    }
+    VENDORS {
+      uuid id PK
+      uuid user_id FK,UK
+      string shop_name
+    }
+    ORDERS {
+      uuid id PK
+      string reference UK
+      uuid buyer_id FK
+      uuid vendor_id FK
+      int total_cents
+      string status
+    }
+    ORDER_ITEMS {
+      uuid id PK
+      uuid order_id FK
+      string product_name
+      int quantity
+      int unit_price_cents
+    }
+    PAYMENTS {
+      uuid id PK
+      uuid order_id FK,UK
+      int amount_cents
+      int refunded_cents
+      string status
+    }
+    DISPUTES {
+      uuid id PK
+      uuid order_id FK,UK
+      uuid resolved_by FK
+      string reason
+      string status
+      int requested_cents
+    }
+    REFUNDS {
+      uuid id PK
+      uuid dispute_id FK,UK
+      uuid payment_id FK
+      uuid processed_by FK
+      int amount_cents
+      string status
+    }
+    DISPUTE_EVENTS {
+      uuid id PK
+      uuid dispute_id FK
+      uuid actor_id FK
+      string event_type
+      json detail
+    }
+    OUTBOX {
+      uuid id PK
+      uuid dispute_id FK
+      json payload
+      datetime processed_at
+    }
+    SESSIONS {
+      string token_hash PK
+      uuid user_id FK
+      datetime expires_at
+    }

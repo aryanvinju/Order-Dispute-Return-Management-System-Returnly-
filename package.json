@@ -1,0 +1,36 @@
+{
+  "name": "returnly-dispute-management",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1",
+    "build": "next build",
+    "start": "next start --hostname 127.0.0.1",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write src scripts tests docs package.json tsconfig.json next.config.ts README.md compose.yaml",
+    "db:setup": "tsx scripts/setup.ts",
+    "db:seed": "tsx scripts/seed.ts",
+    "db:sync": "tsx scripts/sync.ts",
+    "test": "tsx --test tests/domain.test.ts",
+    "test:http": "tsx --test tests/http.test.ts",
+    "test:integration": "tsx --test --test-concurrency=1 tests/integration.test.ts"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.0",
+    "lucide-react": "^0.468.0",
+    "mongodb": "^6.20.0",
+    "mysql2": "^3.15.0",
+    "next": "^16.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "zod": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "prettier": "^3.10.1",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.3"
+  }
+}
